@@ -1,0 +1,14 @@
+{
+  "name": "500px-app",
+  "version": "1.0.0",
+  "description": "Test task",
+  "main": "index.html",
+  "scripts": {
+    "start": "nodejs server.js"
+  },
+  "author": "Lex Quarkie",
+  "license": "MIT",
+  "devDependencies": {
+    "express": "^4.14.0"
+  }
+}
