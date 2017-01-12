@@ -68,10 +68,10 @@
         photos = (<div>loading...</div>)
       }
       else {
-        let photosList = self.state.photos.map((photo) => {
+        let photosList = self.state.photos.map((photo, key) => {
           return (
 
-            <div class="photo" onClick={() => self.selectPhoto(photo).bind(self)}> 
+            <div className="photo" id={key} onClick={() => self.selectPhoto(photo).bind(self)}> 
               {photo.name}
               <div>
                 <img src={photo.image_url} />
@@ -130,6 +130,6 @@
   }
 
   // Render application
-  React.render(<Gallery/>, document.getElementById('app'));
+  ReactDOM.render(<Gallery/>, document.getElementById('app'));
   
 })(React, fetch, Redux);

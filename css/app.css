@@ -4,18 +4,32 @@
 
 body {
   margin: 30px 20px;
-  background: rgba(50, 102, 155, 0.38);
+  background: #8D74E3;
   font-family: sans-serif;
 }
 
-.photo {
-	margin-left: 15 vw;
-	margin-right: 15 vw;
- 	background-color: #AC3;
- 	border: 3px solid #322;
+.photos {
+	margin-left: 35 vw;
+	margin-right: 35 vw;
 }
 
+.photo {
+	position: relative;	
+ 	background-color: #AC3;
+ 	border: 3px solid #DDF;
+ 	margin-bottom: 40px;
+}
+
+
 .photo > img{
+	float:left;
 	border: 2px solid #A22;
 
+}
+
+span {
+	position: relative;
+	float: right;
+	padding-right: 4vw;
+	padding-top: 2vw;
 }
