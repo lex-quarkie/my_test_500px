@@ -18,7 +18,6 @@
 
   // photository component
   class Photo extends React.Component {
-
     render() {
       let photo = (<div>No photo selected</div>);
       if (this.props.photo) {
@@ -34,19 +33,15 @@
         <div className="photo">{photo}</div>  
       )
     }
-
   }
 
-  // photos component
   class Photos extends React.Component {
-
     constructor(props) {
       super(props);
       this.state = {
         photos: [],
         consumer_key: 'wB4ozJxTijCwNuggJvPGtBGCRqaZVcF6jsrzUadF',
         feature: "popular"
-
       };
     }
 
@@ -75,10 +70,13 @@
       else {
         let photosList = self.state.photos.map((photo) => {
           return (
-            <li onClick={() => self.selectphoto(photo).bind(self)}>
+
+            <div class="photo" onClick={() => self.selectPhoto(photo).bind(self)}> 
               {photo.name}
-              <img src={photo.image_url} />
-            </li>
+              <div>
+                <img src={photo.image_url} />
+              </div>
+            </div>
             );
         });
         photos = (<ul>{photosList}</ul>)
@@ -88,7 +86,7 @@
       );
     }
     
-    selectphoto(photo) {
+    selectPhoto(photo) {
       this.props.store.dispatch({
         type: actions.SELECT,
         photo: photo
@@ -129,7 +127,6 @@
         </div>
       )
     }
-
   }
 
   // Render application

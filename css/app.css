@@ -7,3 +7,15 @@ body {
   background: rgba(50, 102, 155, 0.38);
   font-family: sans-serif;
 }
+
+.photo {
+	margin-left: 15 vw;
+	margin-right: 15 vw;
+ 	background-color: #AC3;
+ 	border: 3px solid #322;
+}
+
+.photo > img{
+	border: 2px solid #A22;
+
+}
