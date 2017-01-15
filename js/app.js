@@ -1,5 +1,4 @@
-((React, fetch, Redux) => {
-    
+((React, fetch, Redux) => {    
   // Redux actions
   const actions = {
     SELECT: 'SELECT_photo'
@@ -16,16 +15,16 @@
   };
   const photoStore = Redux.createStore(reducer);
 
-  // photository component
+  // photo component
   class Photo extends React.Component {
     render() {
       let photo = (<div>No photo selected</div>);
       if (this.props.photo) {
+        console.log('props.photo BLABLABLA');
         photo = (
-          <div>
+          <div className="photo">
             <h2>{this.props.photo.name}</h2>
-            <p>{this.props.photo.description}</p>
-            <a href="{this.props.photo.html_url}">See me on Github</a>
+            <p>{this.props.photo.description}</p>            
           </div>
         )
       }
@@ -41,14 +40,14 @@
       this.state = {
         photos: [],
         consumer_key: 'wB4ozJxTijCwNuggJvPGtBGCRqaZVcF6jsrzUadF',
-        feature: "popular"
+        feature: "popular",
+        page: "1"
       };
     }
 
     componentDidMount() {
       let self = this;
-      let url = `https://api.500px.com/v1/photos?feature=${this.state.feature}&consumer_key=${this.state.consumer_key}`
-      console.log(url)
+      let url = `https://api.500px.com/v1/photos?feature=${this.state.feature}&consumer_key=${this.state.consumer_key}&page=${this.state.page}`
       fetch(url)
         .then((response) => response.json())
         .then((json) => {
@@ -70,16 +69,16 @@
       else {
         let photosList = self.state.photos.map((photo, key) => {
           return (
-
-            <div className="photo" id={key} onClick={() => self.selectPhoto(photo).bind(self)}> 
-              {photo.name}
-              <div>
-                <img src={photo.image_url} />
-              </div>
+            <div className="photo" id={key} onClick={() => self.selectPhoto(photo).bind(self)}>          
+                  <img src={photo.image_url} />
+                <div className="info">
+                  <p className="title">{photo.name}</p>
+                  <p className="author">{photo.user.fullname}</p>
+                </div>
             </div>
             );
         });
-        photos = (<ul>{photosList}</ul>)
+        photos = (<div>{photosList}</div>)
       }
       return (
         <div className="photos">{photos}</div>
@@ -117,6 +116,7 @@
       this.setState({
         selectedPhoto: photoStore.getState().photo
       });
+      console.log('Photo selected ');
     }
 
     render() {

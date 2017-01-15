@@ -1,6 +1,3 @@
-.none {
-  display: none !important;
-}
 
 body {
   margin: 30px 20px;
@@ -9,27 +6,43 @@ body {
 }
 
 .photos {
-	margin-left: 35 vw;
-	margin-right: 35 vw;
+	min-width: 76vw;
+	margin-left: 5vw;
+	margin-right: 6vw;
+	
 }
 
 .photo {
+	height: 140px;
 	position: relative;	
- 	background-color: #AC3;
+ 	background-color: #0F166F;
  	border: 3px solid #DDF;
  	margin-bottom: 40px;
+ 	
 }
 
+img {
 
-.photo > img{
-	float:left;
-	border: 2px solid #A22;
-
-}
-
-span {
+	display: inline-block;
 	position: relative;
-	float: right;
-	padding-right: 4vw;
-	padding-top: 2vw;
+	float:left;
+	}
+
+.info{
+	padding-left: 27vw;
+}
+
+.title{
+	
+	position: relative;
+	font-weight: bold;
+	font-size: 2em;
+	color: #A07500;	
+	}
+
+.author{ 	
+	
+	position: relative;
+	color:#5AA;
+	
 }
