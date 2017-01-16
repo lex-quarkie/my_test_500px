@@ -1,7 +1,9 @@
-((React, fetch, Redux) => {    
+ 
   // Redux actions
   const actions = {
-    SELECT: 'SELECT_photo'
+    SELECT: 'SELECT_photo',
+    DESELECT: 'DESELECT_photo',
+    LOAD: 'LOAD_photos'
   };
   
   // Redux store
@@ -9,13 +11,16 @@
     switch (action.type) {
         case actions.SELECT:
           return {photo: action.photo};
+        case actions.DESELECT:
+          return {photo: action.photo};
+        case actions.DESELECT:
+          return {photo: action.photo};
         default:
-          return {photo: null}
+          return {photo: null};
     }
   };
   const photoStore = Redux.createStore(reducer);
 
-  // photo component
   class Photo extends React.Component {
     render() {
       let photo = (<div>No photo selected</div>);
@@ -33,13 +38,14 @@
         photos: [],
         consumer_key: 'wB4ozJxTijCwNuggJvPGtBGCRqaZVcF6jsrzUadF',
         feature: "popular",
+        image_size: 6,
         page: "1"
       };
     }
 
     componentDidMount() {
       let self = this;
-      let url = `https://api.500px.com/v1/photos?feature=${this.state.feature}&consumer_key=${this.state.consumer_key}&page=${this.state.page}`
+      let url = `https://api.500px.com/v1/photos?feature=${this.state.feature}&consumer_key=${this.state.consumer_key}&page=${this.state.page}&image_size=${this.image_size}`
       fetch(url)
         .then((response) => response.json())
         .then((json) => {
@@ -62,11 +68,11 @@
         let photosList = self.state.photos.map((photo, key) => {
           return (
             <div className="photo" key={key} onClick={() => self.selectPhoto(photo).bind(self)}>          
-                  <img src={photo.image_url} />
-                <div className="info">
-                  <p className="title">{photo.name}</p>
-                  <p className="author">{photo.user.fullname}</p>
-                </div>
+              <img src={photo.image_url} />
+              <div className="info">
+                <p className="title">{photo.name}</p>
+                <p className="author">{photo.user.fullname}</p>
+              </div>
             </div>
             );
         });
@@ -86,32 +92,39 @@
   }
 
   class Imageview extends React.Component {
-    constructor(props){
-      super(props);
-    }
-    render(){
-       if (photoStore.getState().photo){
-        return (
-      <div className="modal">
-        <h1>{photoStore.getState().photo.name}</h1>
-        <img src={photoStore.getState().photo.image_url}></img>
-      </div>
-      ) }
-        else {
-        return (
-      <div className="modal none">
-      </div>
-      )
-      }
-    }
-  }
 
-  class Gallery extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {
-        selectedPhoto: null
-      };
+    }
+
+    render() {
+       if (photoStore.getState().photo){
+        return (
+          <div className="modal">
+            <h1>{photoStore.getState().photo.name}</h1>
+            <img src={photoStore.getState().photo.image_url} onClick={() => self.deselectPhoto()}></img>
+          </div>
+      ) }
+        else {return (
+      <div className="modal none">
+      </div>  )
+      }
+    }
+
+    deselectPhoto(photo) {
+      this.props.store.dispatch({
+        type: actions.DESELECT,
+        photo: null
+      });
+    }
+}
+ 
+
+  class Gallery extends React.Component {
+
+    constructor(props) {
+      super(props);
+      
     }
 
     componentDidMount() {
@@ -123,10 +136,7 @@
     }
 
     onPhotoSelected() {
-      this.setState({
-        selectedPhoto: photoStore.getState().photo
-      });
-      console.log(photoStore.getState());
+      this.forceUpdate();
     }
 
     render() {
@@ -134,14 +144,12 @@
       return (
         <div>
           <Photos store={photoStore}/>
-          <Imageview />
+          <Imageview store={photoStore}/>
         </div>
       )
     }
+  }
 
-
-}
 
   ReactDOM.render(<Gallery/>, document.getElementById('app'));
   
-})(React, fetch, Redux);
