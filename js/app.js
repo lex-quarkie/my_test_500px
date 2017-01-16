@@ -19,15 +19,7 @@
   class Photo extends React.Component {
     render() {
       let photo = (<div>No photo selected</div>);
-      if (this.props.photo) {
-        console.log('props.photo BLABLABLA');
-        photo = (
-          <div className="photo">
-            <h2>{this.props.photo.name}</h2>
-            <p>{this.props.photo.description}</p>            
-          </div>
-        )
-      }
+      if (this.props.photo) { }
       return (
         <div className="photo">{photo}</div>  
       )
@@ -69,7 +61,7 @@
       else {
         let photosList = self.state.photos.map((photo, key) => {
           return (
-            <div className="photo" id={key} onClick={() => self.selectPhoto(photo).bind(self)}>          
+            <div className="photo" key={key} onClick={() => self.selectPhoto(photo).bind(self)}>          
                   <img src={photo.image_url} />
                 <div className="info">
                   <p className="title">{photo.name}</p>
@@ -91,12 +83,30 @@
         photo: photo
       });
     }
-
   }
 
-  // App component
-  class Gallery extends React.Component {
+  class Imageview extends React.Component {
+    constructor(props){
+      super(props);
+    }
+    render(){
+       if (photoStore.getState().photo){
+        return (
+      <div className="modal">
+        <h1>{photoStore.getState().photo.name}</h1>
+        <img src={photoStore.getState().photo.image_url}></img>
+      </div>
+      ) }
+        else {
+        return (
+      <div className="modal none">
+      </div>
+      )
+      }
+    }
+  }
 
+  class Gallery extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -105,31 +115,33 @@
     }
 
     componentDidMount() {
-      this.unsubscribe = photoStore.subscribe(this.onphotoSelected.bind(this));
+      this.unsubscribe = photoStore.subscribe(this.onPhotoSelected.bind(this));
     }
 
     componentWillUnmount() {
       this.unsubscribe();
     }
 
-    onphotoSelected() {
+    onPhotoSelected() {
       this.setState({
         selectedPhoto: photoStore.getState().photo
       });
-      console.log('Photo selected ');
+      console.log(photoStore.getState());
     }
 
     render() {
+      
       return (
         <div>
           <Photos store={photoStore}/>
-          <Photo photo={this.state.selectedPhoto} store={photoStore}/>
+          <Imageview />
         </div>
       )
     }
-  }
 
-  // Render application
+
+}
+
   ReactDOM.render(<Gallery/>, document.getElementById('app'));
   
 })(React, fetch, Redux);
